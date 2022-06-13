@@ -1,0 +1,525 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the documentation for Arealize's endpoint. The documentation is written in swagger and can be modified in the github page. To generate the documentation read the readme.md",
+    "version": "1.0.0",
+    "title": "Arealize API documentation"
+  },
+  "host": "arealize-pipeline-1.ew.r.appspot.com",
+  "basePath": "/api/private/",
+  "tags": [
+    {
+      "name": "Floorplan",
+      "description": "Endpoints dealing with the CRUD operation for a single floorplan"
+    },
+    {
+      "name": "Project",
+      "decription": "Endpoints dealing with an organizations projects"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/floorplan": {
+      "post": {
+        "tags": [
+          "Floorplan"
+        ],
+        "summary": "Create a new floorplan",
+        "description": "Create a new floorplan into a project. The organization needs to own the floorplan to be able to edit it",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "decription": "The new data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statenshus 2"
+                },
+                "project_id": {
+                  "type": "integer",
+                  "required": false
+                },
+                "data": {
+                  "$ref": "#/definitions/FloorplanObject"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statenshus 2"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2004-10-19 08:23:54.000000T"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2004-10-19 08:23:54.000000T"
+                },
+                "project_id": {
+                  "type": "integer"
+                },
+                "data": {
+                  "$ref": "#/definitions/FloorplanObject"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The organization does not own the floorplan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your organization does not own this floorplan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/floorplan/{id}": {
+      "get": {
+        "tags": [
+          "Floorplan"
+        ],
+        "summary": "Find a single floorplan by ID",
+        "description": "Returns a single floorplan if the user has access to this floorplan. Should otherwise return a 403",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the floorplan to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statenshus 1"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2004-10-19 08:23:54.000000T"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2005-10-19 08:23:54.000000T"
+                },
+                "project_id": {
+                  "type": "integer"
+                },
+                "data": {
+                  "$ref": "#/definitions/FloorplanObject"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The organization does not own the floorplan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your organization does not own this floorplan"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Floorplan not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Floorplan"
+        ],
+        "summary": "Edit a single floorplan by ID",
+        "description": "Edit a single floorplan by its given id. The organization needs to own the floorplan to be able to edit it",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the floorplan to edit",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "decription": "The new data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statenshus 2"
+                },
+                "project_id": {
+                  "type": "integer"
+                },
+                "data": {
+                  "$ref": "#/definitions/FloorplanObject"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statenshus 2"
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2004-10-19 08:23:54.000000T"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2005-10-19 08:23:54.000000T"
+                },
+                "project_id": {
+                  "type": "integer"
+                },
+                "data": {
+                  "$ref": "#/definitions/FloorplanObject"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The organization does not own the floorplan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your organization does not own this floorplan"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Floorplan not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Floorplan"
+        ],
+        "summary": "Delete a single floorplan by ID",
+        "description": "Deletes a single floorplan if the user has access to this floorplan. Should otherwise return a 403",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the floorplan to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "403": {
+            "description": "The organization does not own the floorplan",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your organization does not own this floorplan"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Floorplan not found"
+          }
+        }
+      }
+    },
+    "/projectAll": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Get all projects connected to a user",
+        "description": "Get all projects connected to a users organization",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project": {
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Create a project connected to a user",
+        "description": "Create a project and connect it to the users organization",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "decription": "The new data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Statens hus"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "Prinsens gate 1"
+                },
+                "squareMeters": {
+                  "type": "float",
+                  "example": "10.0"
+                },
+                "occupancy": {
+                  "type": "integer",
+                  "example": "10"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          },
+          "400": {
+            "description": "Could not create the project",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Could not create project"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/{id}": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Get an project and information about floorplans",
+        "description": "Get all floorpan information connected to a floorplan. The user need to own the project",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/ProjectView"
+            }
+          },
+          "403": {
+            "description": "The organization does not own the project",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Your organization does not own this project"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "FloorplanObject": {
+      "type": "object",
+      "properties": {
+        "floorplan_item_1": {
+          "type": "object",
+          "description": "This is a temp placeholder"
+        },
+        "floorplan_item_2": {
+          "type": "object",
+          "description": "This is a temp placeholder"
+        }
+      }
+    },
+    "FloorplanInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "statens_hus"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://wpmedia.roomsketcher.com/content/uploads/2021/12/07133333/RoomSketcher-High-Quality-3D-Floor-Plans.jpg"
+        },
+        "name": {
+          "type": "string",
+          "example": "Trail 1"
+        },
+        "occupancy": {
+          "type": "integer",
+          "example": 10
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2005-10-19 08:23:54.000000T"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2005-10-19 08:23:54.000000T"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "random_id"
+        },
+        "name": {
+          "type": "string",
+          "example": "Statens hus"
+        },
+        "address": {
+          "type": "string",
+          "example": "Prinsens gate 1"
+        },
+        "image": {
+          "type": "string",
+          "example": "https://pyxis.nymag.com/v1/imgs/808/8f3/75bb6e749524cf4c9372fdad5d1da9a5e9-05-ten-bond-street.rsquare.w700.jpg"
+        },
+        "squareMeters": {
+          "type": "integer",
+          "example": 10
+        },
+        "occupancy": {
+          "type": "integer",
+          "example": 10
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2005-10-19 08:23:54.000000T"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2005-10-19 08:23:54.000000T"
+        }
+      }
+    },
+    "ProjectView": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Project"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "floorplans": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FloorplanInfo"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
